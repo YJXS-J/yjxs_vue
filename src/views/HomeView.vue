@@ -39,6 +39,42 @@
                 </div>
             </template>
         </module-component>
+        <module-component title="高德天气">
+            <template v-slot:module_main_slot>
+                <div class="weather_box">
+                    <!-- 左 -->
+                    <div class="weather_box_left">
+                        <span class="temperature">28</span>
+                        <span>℃</span>
+                    </div>
+                    <!-- 右 -->
+                    <div class="weather_box_right">
+                        <div class="weather_box_right">
+                            <!-- 右第一行 -->
+                            <div>
+                                <span class="weather">天气现象</span>
+                                丨
+                                <span class="winddirection">风向描述</span>
+                                风丨
+                                <span class="windpower">风力级别，单位：级</span>
+                                级
+                            </div>
+                            <!-- 右第二行  -->
+                            <div>
+                                湿度
+                                <span class="humidity">空气湿度</span>
+                                %
+                            </div>
+                            <!-- 右第三行 -->
+                            <div class="">
+                                更新时间：
+                                <span class="reporttime">数据发布的时间</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </module-component>
     </div>
 </template>
 
@@ -47,6 +83,7 @@
 
 export default {
     name: 'HomeView',
+
     data() {
         return {
             year: '1970',
@@ -91,68 +128,95 @@ export default {
                 this.bgColor.weekColor = '#00a5ff';
             }
         },
+        getWeather() {
+            this.$gm.getWeather('110101', 'all');
+        },
     },
     mounted() {
+        // 时间
         this.getTime();
         setInterval(() => {
             this.getTime();
         }, 1000);
+        // 天气
+        this.getWeather();
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.ymd,
-.hms,
-.week_period,
-.hms_box,
-.week,
-.period {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.ymd,
-.hms {
-    margin-bottom: 1rem;
-}
-p {
-    padding: 0.5rem;
-    background: #00a5ff;
-    box-shadow: 0px 13px 24px 0px rgb(3 136 209 / 20%);
-    border-radius: 10px;
-    font-weight: bold;
-    color: #ffffff;
-    text-align: center;
-}
-span {
-    font-weight: bold;
-    color: #3589ff;
-    display: inline-block;
-    text-align: center;
-}
-.year_box,
-.someTime,
-.period_box {
-    width: 4rem;
-}
-.month_box,
-.day_box,
-.hour_box,
-.minute_box,
-.seconds_box,
-.week_box {
-    width: 2rem;
-}
-.hms_box {
+.time_date {
+    .ymd,
+    .hms,
+    .week_period,
+    .hms_box,
+    .week,
+    .period {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .ymd,
+    .hms {
+        margin-bottom: 1rem;
+    }
+    p {
+        padding: 0.5rem;
+        background: #00a5ff;
+        box-shadow: 0px 13px 24px 0px rgb(3 136 209 / 20%);
+        border-radius: 10px;
+        font-weight: bold;
+        color: #ffffff;
+        text-align: center;
+    }
     span {
-        margin: 0 0.5rem;
+        font-weight: bold;
+        color: #3589ff;
+        display: inline-block;
+        text-align: center;
+    }
+    .year_box,
+    .someTime,
+    .period_box {
+        width: 4rem;
+    }
+    .month_box,
+    .day_box,
+    .hour_box,
+    .minute_box,
+    .seconds_box,
+    .week_box {
+        width: 2rem;
+    }
+    .hms_box {
+        span {
+            margin: 0 0.5rem;
+        }
+    }
+    .week {
+        width: 30%;
+    }
+    .period {
+        width: 55%;
     }
 }
-.week {
-    width: 30%;
-}
-.period {
-    width: 55%;
+.weather_box {
+    display: flex;
+    justify-content: space-between;
+    .weather_box_left {
+        width: 30%;
+        display: flex;
+        justify-content: space-between;
+        .temperature {
+            font-size: 3rem;
+            color: #3589ff;
+        }
+    }
+    .weather_box_right {
+        display: flex;
+        justify-content: space-between;
+        flex-flow: column;
+        text-align: left;
+    }
 }
 </style>
