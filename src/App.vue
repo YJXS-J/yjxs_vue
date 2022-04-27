@@ -1,30 +1,38 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <router-view />
+    <tabbar v-if="$route.meta.showTab"></tabbar>
 </template>
 
+<script>
+import Tabbar from './components/Tabbar';
+export default {
+    name: 'app',
+    created: function () {
+        this.$router.push('/');
+    },
+    components: {
+        Tabbar,
+    },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
-nav {
-  padding: 30px;
+body {
+    padding: 1rem;
+    background-color: #e7f3fd;
+}
 
-  a {
-    font-weight: bold;
+#app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
     color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
