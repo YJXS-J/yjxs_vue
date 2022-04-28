@@ -17,6 +17,10 @@ Vue.component('module-component', Module);
 import globalMethod from './assets/js/globalMethod.js';
 Vue.config.globalProperties.$gm = globalMethod;
 
+// 引用js文件
+import axios from 'axios';
+Vue.config.globalProperties.$axios = axios;
+
 // 路由守卫
 router.beforeEach((to, from, next) => {
     /* 路由发生变化修改页面title */

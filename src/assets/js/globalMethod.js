@@ -54,22 +54,4 @@ export default {
                 : '夜晚';
         return { Y, M, D, h, m, s, someTime, week, period };
     },
-    getWeather: function (cityCode, extensions) {
-        var key = '3c63ae331c3c5b812a328d3b6fb26a4c';
-        axios
-            .get(
-                'https://restapi.amap.com/v3/weather/weatherInfo?key=' +
-                    key +
-                    '&city=' +
-                    cityCode +
-                    '&extensions=' +
-                    extensions
-            )
-            .then(function (res) {
-                console.log(res.data.forecasts[0]);
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
-    },
 };
