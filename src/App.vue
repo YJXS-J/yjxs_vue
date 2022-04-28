@@ -1,5 +1,6 @@
 <template>
     <router-view />
+    <div style="height: 3.5rem"></div>
     <tabbar v-if="$route.meta.showTab"></tabbar>
 </template>
 

@@ -5,10 +5,6 @@ import store from './store';
 
 var Vue = createApp(App);
 
-Vue.use(store);
-Vue.use(router);
-Vue.mount('#app');
-
 // 注册全局组件Module
 import Module from './components/Module.vue';
 Vue.component('module-component', Module);
@@ -29,3 +25,7 @@ router.beforeEach((to, from, next) => {
     }
     next();
 });
+
+Vue.use(store);
+Vue.use(router);
+Vue.mount('#app');
