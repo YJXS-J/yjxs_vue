@@ -157,7 +157,7 @@
                             <option value="港元HKD">港元HKD</option>
                             <option value="日元JPY">日元JPY</option>
                         </select>
-                        <button id="currency_convert" onclick="currency_convert()">转换</button>
+                        <button id="currency_convert">转换</button>
                     </div>
                 </div>
             </template>
