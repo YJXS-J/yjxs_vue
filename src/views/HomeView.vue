@@ -614,8 +614,6 @@ export default {
             width: 3rem;
             outline: none;
         }
-        .currency_sel {
-        }
         .convert_png {
             width: 1rem;
         }
