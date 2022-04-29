@@ -125,7 +125,12 @@
                         <img class="currency_convert" src="../assets/images/currency_convert.png" alt="" srcset="" />
                         <!-- 货币转换 -->
                         <div class="currency_convert_box">
-                            <span class="currency_convert_box_text">货币转换</span>
+                            <span class="currency_convert_box_text">
+                                货币转换
+                                <span v-show="exchange.currency_static" class="currency_static">
+                                    {{ exchange.currency_static_text }}
+                                </span>
+                            </span>
                             <span class="currency_convert_box_bold">
                                 {{ exchange.currency_convert_1 }}{{ exchange.currency_1 }} =
                                 {{ exchange.currency_convert_2 }} {{ exchange.currency_2 }}
@@ -143,22 +148,38 @@
                     </div>
                     <!-- 汇率转换 -->
                     <div class="currency_value_box">
-                        <input type="text" id="currency_value" value="1" />
-                        <select name="" class="currency_sel" id="currency_sel_1">
-                            <option value="人民币CNY">人民币CNY</option>
-                            <option value="美元USD">美元USD</option>
-                            <option value="港元HKD">港元HKD</option>
-                            <option value="日元JPY">日元JPY</option>
+                        <input type="text" id="currency_value" :value="exchange.inputVal" v-on:input="currency_value" />
+                        <select
+                            v-model="exchange.currentId1"
+                            @change="currency_change()"
+                            name=""
+                            class="currency_sel"
+                            id="currency_sel_1"
+                        >
+                            <option
+                                v-for="(item, index) in exchange.productList"
+                                :value="item.id"
+                                v-text="item.val"
+                            ></option>
                         </select>
                         <img class="convert_png" src="../assets/images/convert.png" alt="" />
-                        <select name="" class="currency_sel" id="currency_sel_2">
-                            <option value="人民币CNY">人民币CNY</option>
-                            <option value="美元USD" selected="">美元USD</option>
-                            <option value="港元HKD">港元HKD</option>
-                            <option value="日元JPY">日元JPY</option>
+                        <select
+                            v-model="exchange.currentId2"
+                            @change="currency_change()"
+                            name=""
+                            class="currency_sel"
+                            id="currency_sel_2"
+                        >
+                            <option
+                                v-for="(item, index) in exchange.productList"
+                                :value="item.id"
+                                v-text="item.val"
+                            ></option>
                         </select>
-                        <button id="currency_convert">转换</button>
+                        <button id="currency_convert" @click="currency_convert()">转换</button>
                     </div>
+                    <!-- 下拉框判断 -->
+                    <div class="currency_tip" v-show="exchange.currency_tip_static">请选择不同的货币单位</div>
                 </div>
             </template>
         </module-component>
@@ -219,6 +240,19 @@ export default {
                 JPY: '0',
                 HKD: '0',
                 exchangeData: null,
+                inputVal: '1',
+                productList: [
+                    { id: '人民币CNY', val: '人民币CNY' },
+                    { id: '美元USD', val: '美元USD' },
+                    { id: '日元JPY', val: '日元JPY' },
+                    { id: '港元HKD', val: '港元HKD' },
+                ],
+                currentId1: '人民币CNY',
+                currentId2: '美元USD',
+                defaultsStatic: true,
+                currency_static: false,
+                currency_static_text: '转换中...',
+                currency_tip_static: false,
             },
         };
     },
@@ -235,14 +269,14 @@ export default {
             this.time.someTime = date.someTime;
             this.time.week = date.week;
             this.time.period = date.period;
-            if (this.hour < '09' || this.hour > '20') {
+            if (this.time.hour < '09' || this.time.hour > '20') {
                 this.time.bgColor.periodColor = '#9c27b0';
                 this.time.bgColor.someTimeColor = '#9c27b0';
             } else {
                 this.time.bgColor.periodColor = '#00a5ff';
                 this.time.bgColor.someTimeColor = '#00a5ff';
             }
-            if (this.week != '六' && this.week != '日') {
+            if (this.time.week != '六' && this.time.week != '日') {
                 this.time.bgColor.weekColor = '#ff5722';
             } else {
                 this.time.bgColor.weekColor = '#00a5ff';
@@ -292,21 +326,82 @@ export default {
                 toCode.slice(-3);
             this.$axios.get(url).then(res => {
                 if (res.data.msg == 'success') {
+                    this.exchange.currency_static = false;
+
                     var rate = res.data.data.rate;
                     var fromCode = res.data.data.fromCode;
                     var toCode = res.data.data.toCode;
+                    this.exchange.exchangeData = {
+                        rate: rate,
+                        fromCode: fromCode,
+                        toCode: toCode,
+                    };
+                    if (!this.exchange.defaultsStatic) {
+                        this.getExchange_defaults();
+                    }
 
-                    if (FromCode == 'USD') {
-                        this.exchange.USD = rate;
+                    if (this.exchange.defaultsStatic) {
+                        if (FromCode == 'USD') {
+                            this.exchange.USD = rate;
+                            // 初始化默认转换汇率
+                            this.getExchange_defaults();
+                        }
+                        if (FromCode == 'JPY') {
+                            this.exchange.JPY = rate;
+                        }
+                        if (FromCode == 'HKD') {
+                            this.exchange.HKD = rate;
+                        }
                     }
-                    if (FromCode == 'JPY') {
-                        this.exchange.JPY = rate;
+                    if (this.exchange.USD != '0' && this.exchange.JPY != '0' && this.exchange.HKD != '0') {
+                        this.exchange.defaultsStatic = false;
                     }
-                    if (FromCode == 'HKD') {
-                        this.exchange.HKD = rate;
-                    }
+                } else {
+                    this.exchange.currency_static_text = '汇率获取失败，请稍后重试';
+                    setTimeout(() => {
+                        this.exchange.currency_static = false;
+                    }, 1500);
                 }
             });
+        },
+        async getExchange_defaults() {
+            var inputVal = this.exchange.inputVal;
+            var currentId1 = this.exchange.currentId1;
+            var currentId2 = this.exchange.currentId2;
+            // 修改页面文字
+            this.exchange.currency_convert_1 = inputVal;
+            this.exchange.currency_convert_3 = inputVal;
+            this.exchange.currency_1 = currentId1.slice(0, -3);
+            this.exchange.currency_4 = currentId1.slice(0, -3);
+            this.exchange.currency_2 = currentId2.slice(0, -3);
+            this.exchange.currency_3 = currentId2.slice(0, -3);
+            // 调用汇率接口
+            this.exchange.currency_convert_2 = (this.exchange.exchangeData.rate * inputVal).toFixed(4);
+            this.exchange.currency_convert_4 = (
+                (this.exchange.exchangeData.fromCode / this.exchange.exchangeData.toCode) *
+                inputVal
+            ).toFixed(4);
+        },
+        async currency_convert() {
+            console.log(this.exchange.currency_tip_static);
+            if (this.exchange.defaultsStatic || this.exchange.currency_tip_static) {
+                return;
+            }
+            var currentId1 = this.exchange.currentId1;
+            var currentId2 = this.exchange.currentId2;
+            this.exchange.currency_static = true;
+            this.exchange.currency_static_text = '转换中...';
+            this.getExchange(currentId2, currentId1);
+        },
+        async currency_value(e) {
+            this.exchange.inputVal = e.target.value;
+        },
+        async currency_change() {
+            if (this.exchange.currentId1 == this.exchange.currentId2) {
+                this.exchange.currency_tip_static = true;
+            } else {
+                this.exchange.currency_tip_static = false;
+            }
         },
     },
     mounted() {
@@ -318,7 +413,7 @@ export default {
         // 天气
         this.getWeather('440300', 'base'); // 今日天气
         this.getWeather('440300', 'all'); // 明日天气
-        // 初始化汇率
+        // 初始化所有货币汇率
         this.getExchange('USD', 'CNY');
         this.getExchange('JPY', 'CNY');
         this.getExchange('HKD', 'CNY');
@@ -326,18 +421,21 @@ export default {
         var setexchangeUSD = setInterval(() => {
             if (this.exchange.USD == '0') {
                 this.getExchange('USD', 'CNY');
+            } else {
                 clearInterval(setexchangeUSD);
             }
         }, 1000);
         var setexchangeJPY = setInterval(() => {
             if (this.exchange.JPY == '0') {
                 this.getExchange('JPY', 'CNY');
+            } else {
                 clearInterval(setexchangeJPY);
             }
         }, 1000);
         var setexchangeHKD = setInterval(() => {
             if (this.exchange.HKD == '0') {
                 this.getExchange('HKD', 'CNY');
+            } else {
                 clearInterval(setexchangeHKD);
             }
         }, 1000);
@@ -473,7 +571,7 @@ export default {
     .exchange_top {
         display: flex;
         img {
-            width: 3rem;
+            width: 4rem;
         }
         .currency_convert_box {
             display: flex;
@@ -484,7 +582,13 @@ export default {
                 text-align: left;
             }
             .currency_convert_box_bold {
+                text-align: left;
                 font-weight: bold;
+            }
+            .currency_static {
+                color: red;
+                font-size: 0.5rem;
+                margin-left: 0.5rem;
             }
         }
     }
@@ -523,6 +627,12 @@ export default {
             color: #ffffff;
             width: 3rem;
         }
+    }
+    .currency_tip {
+        color: red;
+        font-size: 0.5rem;
+        text-align: left;
+        margin-top: 0.5rem;
     }
 }
 </style>
