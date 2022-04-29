@@ -254,6 +254,7 @@ export default {
                 currency_static_text: '转换中...',
                 currency_tip_static: false,
             },
+            exchangeData: null,
         };
     },
     methods: {
