@@ -17,6 +17,10 @@ Vue.config.globalProperties.$gm = globalMethod;
 import axios from 'axios';
 Vue.config.globalProperties.$axios = axios;
 
+// 引入Echarts
+import * as echarts from 'echarts';
+Vue.config.globalProperties.$echarts = echarts;
+
 // 路由守卫
 router.beforeEach((to, from, next) => {
     /* 路由发生变化修改页面title */

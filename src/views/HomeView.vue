@@ -186,6 +186,8 @@
                     </div>
                     <!-- 下拉框判断 -->
                     <div class="currency_tip" v-show="exchange.currency_tip_static">请选择不同的货币单位</div>
+                    <!-- 汇率echarts -->
+                    <div id="exchangeEcharts"></div>
                 </div>
             </template>
         </module-component>
@@ -248,7 +250,24 @@ export default {
                 HKD: '0',
                 exchangeData: null,
                 inputVal: '1',
-                productList: null,
+                productList: [
+                    {
+                        name: 'CNY',
+                        desc: '人民币',
+                    },
+                    {
+                        name: 'USD',
+                        desc: '美元',
+                    },
+                    {
+                        name: 'JPY',
+                        desc: '日元',
+                    },
+                    {
+                        name: 'HKD',
+                        desc: '港元',
+                    },
+                ],
                 currentId1: 'CNY',
                 currentId2: 'USD',
                 defaultsStatic: true,
@@ -422,24 +441,42 @@ export default {
         async currency_value(e) {
             this.exchange.inputVal = e.target.value;
         },
-        async getCurrencyOption() {
-            var url =
-                this.$store.state.mxnzpUrl +
-                '/api/exchange_rate/configs?app_id=' +
-                this.$store.state.app_id +
-                '&app_secret=' +
-                this.$store.state.app_secret;
 
-            this.$axios.get(url).then(res => {
-                this.exchange.productList = res.data.data;
-            });
-        },
         async currency_change() {
             if (this.exchange.currentId1 == this.exchange.currentId2) {
                 this.exchange.currency_tip_static = true;
             } else {
                 this.exchange.currency_tip_static = false;
             }
+        },
+        async currency_close() {
+            // 基于准备好的dom，初始化echarts实例
+            var currency_echarts = this.$echarts.init(document.getElementById('exchangeEcharts'));
+
+            currency_echarts.showLoading({
+                text: '加载中...', //加载时候的文本
+                color: '#00a5ff', //加载时候小圆圈的颜色
+                textColor: '#00a5ff', //加载时候文本颜色
+                // maskColor: '#082042', //加载时候的背景颜色
+            });
+            // 绘制图表
+            currency_echarts.setOption({
+                title: {
+                    text: 'ECharts 入门示例',
+                },
+                tooltip: {},
+                xAxis: {
+                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
+                },
+                yAxis: {},
+                series: [
+                    {
+                        name: '销量',
+                        type: 'bar',
+                        data: [5, 20, 36, 10, 10, 20],
+                    },
+                ],
+            });
         },
     },
     mounted() {
@@ -459,9 +496,6 @@ export default {
         this.getExchange('USD', 'CNY');
         this.getExchange('JPY', 'CNY');
         this.getExchange('HKD', 'CNY');
-
-        // 初始化下拉框数据
-        this.getCurrencyOption();
 
         // 汇率获取失败重新获取
         var setexchangeUSD = setInterval(() => {
@@ -485,6 +519,9 @@ export default {
                 clearInterval(setexchangeHKD);
             }
         }, 1000);
+
+        // Echarts
+        this.currency_close();
     },
     watch: {
         time: {
@@ -655,6 +692,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 0.5rem;
         #currency_value,
         .currency_sel,
         #currency_convert {
@@ -682,6 +720,10 @@ export default {
         font-size: 0.5rem;
         text-align: left;
         margin-top: 0.5rem;
+    }
+    #exchangeEcharts {
+        width: 100%;
+        height: 10rem;
     }
 }
 </style>
