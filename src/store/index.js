@@ -2,17 +2,12 @@ import { createStore } from 'vuex';
 
 export default createStore({
     state: {
-        forecasts: null,
+        mxnzpUrl: 'https://www.mxnzp.com',
+        app_id: '9hlmoqmsnoh8arpn',
+        app_secret: 'dlA0cFk2VWR5QXdTd0E3c0dtSStMQT09',
     },
     getters: {},
-    mutations: {
-        setExchange(state, forecasts) {
-            state.forecasts = forecasts;
-        },
-        getExchange(state) {
-            return state.forecasts;
-        },
-    },
+    mutations: {},
     actions: {},
     modules: {},
 });

@@ -41,6 +41,12 @@
                             </p>
                         </div>
                     </div>
+                    <!-- 分割线 -->
+                    <hr class="splitLine" />
+                    <div class="hotTitle2">历史上的今天</div>
+                    <div class="todayInHistory">
+                        {{ time.todayInHistory }}
+                    </div>
                 </div>
             </template>
         </module-component>
@@ -158,8 +164,8 @@
                         >
                             <option
                                 v-for="(item, index) in exchange.productList"
-                                :value="item.id"
-                                v-text="item.val"
+                                :value="item.name"
+                                v-text="item.desc"
                             ></option>
                         </select>
                         <img class="convert_png" src="../assets/images/convert.png" alt="" />
@@ -172,8 +178,8 @@
                         >
                             <option
                                 v-for="(item, index) in exchange.productList"
-                                :value="item.id"
-                                v-text="item.val"
+                                :value="item.name"
+                                v-text="item.desc"
                             ></option>
                         </select>
                         <button id="currency_convert" @click="currency_convert()">转换</button>
@@ -209,6 +215,7 @@ export default {
                     weekColor: '#00a5ff',
                     periodColor: '#00a5ff',
                 },
+                todayInHistory: '',
             },
             weatherToday: {
                 weather: '--',
@@ -241,14 +248,9 @@ export default {
                 HKD: '0',
                 exchangeData: null,
                 inputVal: '1',
-                productList: [
-                    { id: '人民币CNY', val: '人民币CNY' },
-                    { id: '美元USD', val: '美元USD' },
-                    { id: '日元JPY', val: '日元JPY' },
-                    { id: '港元HKD', val: '港元HKD' },
-                ],
-                currentId1: '人民币CNY',
-                currentId2: '美元USD',
+                productList: null,
+                currentId1: 'CNY',
+                currentId2: 'USD',
                 defaultsStatic: true,
                 currency_static: false,
                 currency_static_text: '转换中...',
@@ -282,6 +284,17 @@ export default {
             } else {
                 this.time.bgColor.weekColor = '#00a5ff';
             }
+        },
+        async getTodayInHistory() {
+            var url =
+                this.$store.state.mxnzpUrl +
+                '/api/history/today?type=1&app_id=' +
+                this.$store.state.app_id +
+                '&app_secret=' +
+                this.$store.state.app_secret;
+            this.$axios.get(url).then(res => {
+                this.time.todayInHistory = res.data.data[0].title;
+            });
         },
         async getWeather(cityCode, extensions) {
             let that = this; //存储this
@@ -369,13 +382,26 @@ export default {
             var inputVal = this.exchange.inputVal;
             var currentId1 = this.exchange.currentId1;
             var currentId2 = this.exchange.currentId2;
+
+            // 匹配对应的文字
+            var that = this;
+            function currentId_text(currentId) {
+                var currentId_text = '';
+                that.exchange.productList.forEach(item => {
+                    if (item.name == currentId) {
+                        currentId_text = item.desc;
+                    }
+                });
+                return currentId_text;
+            }
+
             // 修改页面文字
             this.exchange.currency_convert_1 = inputVal;
             this.exchange.currency_convert_3 = inputVal;
-            this.exchange.currency_1 = currentId1.slice(0, -3);
-            this.exchange.currency_4 = currentId1.slice(0, -3);
-            this.exchange.currency_2 = currentId2.slice(0, -3);
-            this.exchange.currency_3 = currentId2.slice(0, -3);
+            this.exchange.currency_1 = currentId_text(currentId1);
+            this.exchange.currency_4 = currentId_text(currentId1);
+            this.exchange.currency_2 = currentId_text(currentId2);
+            this.exchange.currency_3 = currentId_text(currentId2);
             // 调用汇率接口
             this.exchange.currency_convert_2 = (this.exchange.exchangeData.rate * inputVal).toFixed(4);
             this.exchange.currency_convert_4 = (
@@ -384,7 +410,6 @@ export default {
             ).toFixed(4);
         },
         async currency_convert() {
-            console.log(this.exchange.currency_tip_static);
             if (this.exchange.defaultsStatic || this.exchange.currency_tip_static) {
                 return;
             }
@@ -396,6 +421,18 @@ export default {
         },
         async currency_value(e) {
             this.exchange.inputVal = e.target.value;
+        },
+        async getCurrencyOption() {
+            var url =
+                this.$store.state.mxnzpUrl +
+                '/api/exchange_rate/configs?app_id=' +
+                this.$store.state.app_id +
+                '&app_secret=' +
+                this.$store.state.app_secret;
+
+            this.$axios.get(url).then(res => {
+                this.exchange.productList = res.data.data;
+            });
         },
         async currency_change() {
             if (this.exchange.currentId1 == this.exchange.currentId2) {
@@ -411,13 +448,21 @@ export default {
         setInterval(() => {
             this.getTime();
         }, 1000);
+        // 历史上的今天
+        this.getTodayInHistory();
+
         // 天气
         this.getWeather('440300', 'base'); // 今日天气
         this.getWeather('440300', 'all'); // 明日天气
+
         // 初始化所有货币汇率
         this.getExchange('USD', 'CNY');
         this.getExchange('JPY', 'CNY');
         this.getExchange('HKD', 'CNY');
+
+        // 初始化下拉框数据
+        this.getCurrencyOption();
+
         // 汇率获取失败重新获取
         var setexchangeUSD = setInterval(() => {
             if (this.exchange.USD == '0') {
@@ -514,6 +559,11 @@ export default {
     }
     .period {
         width: 55%;
+    }
+    .todayInHistory {
+        text-align: left;
+        color: #00a5ff;
+        font-weight: bold;
     }
 }
 .weather_box {
