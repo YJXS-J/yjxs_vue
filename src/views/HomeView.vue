@@ -183,7 +183,7 @@
                             @change="currency_echarts_change()"
                         >
                             <option
-                                v-for="(item, index) in exchange.productList"
+                                v-for="(item, index) in exchange.productList2"
                                 :value="item.name"
                                 v-text="item.desc"
                             ></option>
@@ -257,6 +257,20 @@ export default {
                         name: 'CNY',
                         desc: '人民币',
                     },
+                    {
+                        name: 'USD',
+                        desc: '美元',
+                    },
+                    {
+                        name: 'JPY',
+                        desc: '日元',
+                    },
+                    {
+                        name: 'HKD',
+                        desc: '港元',
+                    },
+                ],
+                productList2: [
                     {
                         name: 'USD',
                         desc: '美元',
@@ -450,18 +464,28 @@ export default {
         },
 
         async currency_echarts_change() {
-            console.log(this.exchange.currentId3);
+            var seriesName =
+                this.exchange.currentId3 == 'USD'
+                    ? 'USD'
+                    : this.exchange.currentId3 == 'JPY'
+                    ? 'JPY'
+                    : this.exchange.currentId3 == 'HKD'
+                    ? 'HKD'
+                    : '';
+            this.exchangeChart(this.exchange.currentId3, seriesName);
         },
-        async exchangeChart(fromCode, seriesName) {
+        async exchangeChart(toCode, seriesName) {
+            // 销毁实例
+            this.$echarts.init(document.getElementById('exchangeEcharts')).dispose(); // 销毁实例
             // 基于准备好的dom，初始化echarts实例
             var currency_echarts = this.$echarts.init(document.getElementById('exchangeEcharts'));
 
-            // currency_echarts.showLoading({
-            //     text: '加载中...', //加载时候的文本
-            //     color: '#00a5ff', //加载时候小圆圈的颜色
-            //     textColor: '#00a5ff', //加载时候文本颜色
-            //     // maskColor: '#082042', //加载时候的背景颜色
-            // });
+            currency_echarts.showLoading({
+                text: '加载中...', //加载时候的文本
+                color: '#00a5ff', //加载时候小圆圈的颜色
+                textColor: '#00a5ff', //加载时候文本颜色
+                // maskColor: '#082042', //加载时候的背景颜色
+            });
             // 绘制图表
             currency_echarts.setOption({
                 tooltip: {
@@ -487,7 +511,7 @@ export default {
                 },
                 series: [
                     {
-                        name: '日元',
+                        name: seriesName,
                         type: 'line',
                         areaStyle: {},
                         data: [],
@@ -499,22 +523,38 @@ export default {
                 ],
             });
 
+            var that = this;
             var xAxisData = [];
-            var seriesData = [5];
-            xAxisData.push(this.time.hour + ':' + this.time.minute);
-            currency_echarts.setOption({
-                xAxis: [
-                    {
-                        data: xAxisData,
-                    },
-                ],
-                series: [
-                    {
-                        data: seriesData,
-                    },
-                ],
-            });
-            currency_echarts.hideLoading();
+            var seriesData = [];
+            function echarts_setOption() {
+                var url = 'https://api.it120.cc/gooking/forex/rate?fromCode=CNY&toCode=' + toCode;
+                that.$axios.get(url).then(res => {
+                    if (res.data.msg == 'success') {
+                        xAxisData.push(that.time.hour + ':' + that.time.minute);
+                        seriesData.push(res.data.data.rate);
+                        currency_echarts.setOption({
+                            xAxis: [
+                                {
+                                    data: xAxisData,
+                                },
+                            ],
+                            series: [
+                                {
+                                    data: seriesData,
+                                },
+                            ],
+                        });
+                        currency_echarts.hideLoading();
+                    } else {
+                        echarts_setOption();
+                    }
+                });
+            }
+            echarts_setOption();
+            // 定时刷新15分钟
+            setInterval(() => {
+                echarts_setOption();
+            }, 900000);
         },
     },
     mounted() {
@@ -559,7 +599,7 @@ export default {
         }, 1000);
 
         // Echarts
-        this.exchangeChart();
+        this.exchangeChart('JPY', '日元');
     },
     watch: {
         time: {
