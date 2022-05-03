@@ -155,13 +155,7 @@
                     <!-- 汇率转换 -->
                     <div class="currency_value_box">
                         <input type="text" id="currency_value" :value="exchange.inputVal" v-on:input="currency_value" />
-                        <select
-                            v-model="exchange.currentId1"
-                            @change="currency_change()"
-                            name=""
-                            class="currency_sel"
-                            id="currency_sel_1"
-                        >
+                        <select v-model="exchange.currentId1" @change="currency_change()" name="" class="currency_sel">
                             <option
                                 v-for="(item, index) in exchange.productList"
                                 :value="item.name"
@@ -169,13 +163,7 @@
                             ></option>
                         </select>
                         <img class="convert_png" src="../assets/images/convert.png" alt="" />
-                        <select
-                            v-model="exchange.currentId2"
-                            @change="currency_change()"
-                            name=""
-                            class="currency_sel"
-                            id="currency_sel_2"
-                        >
+                        <select v-model="exchange.currentId2" @change="currency_change()" name="" class="currency_sel">
                             <option
                                 v-for="(item, index) in exchange.productList"
                                 :value="item.name"
@@ -187,6 +175,20 @@
                     <!-- 下拉框判断 -->
                     <div class="currency_tip" v-show="exchange.currency_tip_static">请选择不同的货币单位</div>
                     <!-- 汇率echarts -->
+                    <div class="exchangeEchartsOption">
+                        <select
+                            name=""
+                            class="currency_sel"
+                            v-model="exchange.currentId3"
+                            @change="currency_echarts_change()"
+                        >
+                            <option
+                                v-for="(item, index) in exchange.productList"
+                                :value="item.name"
+                                v-text="item.desc"
+                            ></option>
+                        </select>
+                    </div>
                     <div id="exchangeEcharts"></div>
                 </div>
             </template>
@@ -270,6 +272,7 @@ export default {
                 ],
                 currentId1: 'CNY',
                 currentId2: 'USD',
+                currentId3: 'JPY',
                 defaultsStatic: true,
                 currency_static: false,
                 currency_static_text: '转换中...',
@@ -443,40 +446,75 @@ export default {
         },
 
         async currency_change() {
-            if (this.exchange.currentId1 == this.exchange.currentId2) {
-                this.exchange.currency_tip_static = true;
-            } else {
-                this.exchange.currency_tip_static = false;
-            }
+            this.exchange.currency_tip_static = this.exchange.currentId1 == this.exchange.currentId2 ? true : false;
         },
-        async currency_close() {
+
+        async currency_echarts_change() {
+            console.log(this.exchange.currentId3);
+        },
+        async exchangeChart(fromCode, seriesName) {
             // 基于准备好的dom，初始化echarts实例
             var currency_echarts = this.$echarts.init(document.getElementById('exchangeEcharts'));
 
-            currency_echarts.showLoading({
-                text: '加载中...', //加载时候的文本
-                color: '#00a5ff', //加载时候小圆圈的颜色
-                textColor: '#00a5ff', //加载时候文本颜色
-                // maskColor: '#082042', //加载时候的背景颜色
-            });
+            // currency_echarts.showLoading({
+            //     text: '加载中...', //加载时候的文本
+            //     color: '#00a5ff', //加载时候小圆圈的颜色
+            //     textColor: '#00a5ff', //加载时候文本颜色
+            //     // maskColor: '#082042', //加载时候的背景颜色
+            // });
             // 绘制图表
             currency_echarts.setOption({
-                title: {
-                    text: 'ECharts 入门示例',
+                tooltip: {
+                    trigger: 'axis',
+                    position: function (pt) {
+                        return [pt[0], '10%'];
+                    },
+                    confine: true,
                 },
-                tooltip: {},
+                grid: {
+                    top: '8%',
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true,
+                },
                 xAxis: {
-                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
+                    type: 'category',
+                    data: [],
                 },
-                yAxis: {},
+                yAxis: {
+                    type: 'value',
+                },
                 series: [
                     {
-                        name: '销量',
-                        type: 'bar',
-                        data: [5, 20, 36, 10, 10, 20],
+                        name: '日元',
+                        type: 'line',
+                        areaStyle: {},
+                        data: [],
+                        // 修改颜色
+                        itemStyle: {
+                            color: 'rgb(65, 207, 255)',
+                        },
                     },
                 ],
             });
+
+            var xAxisData = [];
+            var seriesData = [5];
+            xAxisData.push(this.time.hour + ':' + this.time.minute);
+            currency_echarts.setOption({
+                xAxis: [
+                    {
+                        data: xAxisData,
+                    },
+                ],
+                series: [
+                    {
+                        data: seriesData,
+                    },
+                ],
+            });
+            currency_echarts.hideLoading();
         },
     },
     mounted() {
@@ -521,7 +559,7 @@ export default {
         }, 1000);
 
         // Echarts
-        this.currency_close();
+        this.exchangeChart();
     },
     watch: {
         time: {
@@ -601,6 +639,8 @@ export default {
         text-align: left;
         color: #00a5ff;
         font-weight: bold;
+        text-decoration: underline;
+        font-style: italic;
     }
 }
 .weather_box {
@@ -697,10 +737,10 @@ export default {
         .currency_sel,
         #currency_convert {
             font-size: 0.7rem;
-            padding: 0.3rem 0;
+            padding: 0.1rem 0;
         }
         #currency_value {
-            width: 3rem;
+            width: 3.5rem;
             outline: none;
         }
         .convert_png {
@@ -719,9 +759,19 @@ export default {
         color: red;
         font-size: 0.5rem;
         text-align: left;
-        margin-top: 0.5rem;
+        margin: 0.5rem 0;
+    }
+    .exchangeEchartsOption {
+        display: flex;
+        justify-content: start;
+        margin: 0.5rem 0;
+        select {
+            font-size: 0.7rem;
+            padding: 0.1rem 0;
+        }
     }
     #exchangeEcharts {
+        z-index: 1;
         width: 100%;
         height: 10rem;
     }
