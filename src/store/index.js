@@ -10,6 +10,7 @@ export default createStore({
     getters: {},
     mutations: {
         changeLogin(state, data) {
+            console.log(data, state);
             state.isLogin = data;
         },
     },

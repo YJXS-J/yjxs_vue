@@ -37,18 +37,33 @@ export default {
                 this.msgColor = 'red';
                 this.message = '请输入用户名和密码！';
                 this.msgStatus = true;
+
+                this.$store.commit('changeLogin', false);
+                setCookie('isLogin', 'false');
+
                 setTimeout(() => {
                     this.msgStatus = false;
                 }, 1000);
                 return;
             }
+
+            function setCookie(key, value, expires = '', domain = window.location.hostname, path = '/') {
+                const time = expires ? new Date(expires) : expires;
+                console.log(time);
+                const cookie = `${key}=${value}; expires=${time}; domain=${domain}; path=${path}`;
+                document.cookie = cookie;
+            }
+
             if (this.name == '1' && this.password == '1') {
                 this.msgColor = 'green';
                 this.message = '登录成功！';
                 this.msgStatus = true;
+
                 this.$store.commit('changeLogin', true);
+                setCookie('isLogin', 'true');
+
                 setTimeout(() => {
-                    if (this.$route.query.Rurl && this.$route.query.Rurl != 'my') {
+                    if (this.$route.query.Rurl) {
                         this.$router.push(this.$route.query.Rurl);
                     } else {
                         this.$router.push('/');
@@ -59,6 +74,10 @@ export default {
                 this.msgColor = 'red';
                 this.message = '用户名或密码错误！';
                 this.msgStatus = true;
+
+                this.$store.commit('changeLogin', false);
+                setCookie('isLogin', 'false');
+
                 setTimeout(() => {
                     this.msgStatus = false;
                 }, 1000);

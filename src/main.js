@@ -31,8 +31,25 @@ router.beforeEach((to, from, next) => {
 
     router.beforeEach((to, from, next) => {
         if (to.matched.some(m => m.meta.auth)) {
+            /**
+             * 根据cookie的key获取对应的值
+             * @param {String} key 键
+             * @return {String} value 值
+             */
+            function cookieKeyGetValue(key) {
+                if (document.cookie.length > 0) {
+                    const Cookie = document.cookie;
+                    const cookieList = Cookie.split('; ');
+                    const cookieKeyList = cookieList.map(item => {
+                        return item.split('=')[0];
+                    });
+                    const index = cookieKeyList.indexOf(key);
+                    return cookieList[index].split('=')[1] == 'false' ? false : true;
+                }
+            }
+
             // 对路由进行验证
-            if (store.state.isLogin) {
+            if (store.state.isLogin || cookieKeyGetValue('isLogin')) {
                 // 已经登陆
                 next(); // 正常跳转到你设置好的页面
             } else {
