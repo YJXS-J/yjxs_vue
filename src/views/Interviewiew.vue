@@ -26,11 +26,13 @@
                     <span class="companyTitle">联系人：</span>
                     <span class="companyMain">
                         {{ item.contact }}-
-                        <span v-if="item.phone.indexOf('-') != -1">
+                        <span v-if="item.phone.indexOf('-') != -1" class="companyMain">
                             {{ item.phone }}
                         </span>
                         <span v-else>
-                            <a :href="'tel:' + item.phone" rel="external nofollow">{{ item.phone }}</a>
+                            <a class="companyMain" :href="'tel:' + item.phone" rel="external nofollow">
+                                {{ item.phone }}
+                            </a>
                         </span>
                     </span>
                 </div>
@@ -135,6 +137,9 @@ export default {
             width: 70%;
             font-weight: normal;
             font-size: 0.8rem;
+        }
+        a {
+            color: #1296db;
         }
     }
 }
