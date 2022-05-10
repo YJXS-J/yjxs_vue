@@ -126,7 +126,7 @@ export default {
             height: 2rem;
             padding: 0.5rem 0;
             img {
-                width: 10%;
+                height: 70%;
                 position: absolute;
                 top: 50%;
                 left: 8%;

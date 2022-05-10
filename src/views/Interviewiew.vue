@@ -13,7 +13,14 @@
                 </div>
                 <div class="companyDiv">
                     <span class="companyTitle">地址：</span>
-                    <span class="companyMain">{{ item.InterviewLocation }}</span>
+                    <span class="companyMain">
+                        <a :href="item.url" v-if="item.url != null" class="companyMain">
+                            {{ item.InterviewLocation }}
+                        </a>
+                        <span v-else class="companyMain">
+                            {{ item.InterviewLocation }}
+                        </span>
+                    </span>
                 </div>
                 <div class="companyDiv">
                     <span class="companyTitle">联系人：</span>
@@ -51,6 +58,7 @@ export default {
                     phone: '717-268-761',
                     status: '待面试',
                     color: 'black',
+                    url: null,
                 },
                 {
                     companyName: '车安科技（现场）',
@@ -60,6 +68,10 @@ export default {
                     phone: '15622512950',
                     status: '待面试',
                     color: 'black',
+                    url:
+                        this.$store.state.amaHttps1 +
+                        '113.949856,22.635194,深圳市华润置地B座' +
+                        this.$store.state.amaHttps2,
                 },
                 {
                     companyName: '未知（现场）',
@@ -69,6 +81,11 @@ export default {
                     phone: '18682480859',
                     status: '待面试',
                     color: 'black',
+                    via: { lon: 113.957561, lat: 22.541757, name: '深圳市华润置地B座' },
+                    url:
+                        this.$store.state.amaHttps1 +
+                        '113.957561,22.541757,深圳市华润置地B座' +
+                        this.$store.state.amaHttps2,
                 },
             ],
             timeNow: '',
