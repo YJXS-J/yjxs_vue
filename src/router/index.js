@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router';
+// import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import WeatherView from '../views/WeatherView.vue';
-import CurrencyView from '../views/CurrencyView.vue';
+import Interviewiew from '../views/Interviewiew.vue';
+import QuestionsView from '../views/QuestionsView.vue';
 import MyView from '../views/MyView.vue';
+import LoginView from '../views/LoginView.vue';
 
 const routes = [
     {
@@ -12,24 +14,27 @@ const routes = [
         meta: {
             title: '首页',
             showTab: true,
+            keepAlive: true,
         },
     },
     {
-        path: '/weather',
-        name: 'weather',
-        component: WeatherView,
+        path: '/interview',
+        name: 'interview',
+        component: Interviewiew,
         meta: {
-            title: '天气',
+            title: '面试',
             showTab: true,
+            auth: true,
         },
     },
     {
-        path: '/currency',
-        name: 'currency',
-        component: CurrencyView,
+        path: '/questionsview',
+        name: 'questionsview',
+        component: QuestionsView,
         meta: {
-            title: '汇率',
+            title: '面试题',
             showTab: true,
+            auth: true,
         },
     },
     {
@@ -41,10 +46,20 @@ const routes = [
             showTab: true,
         },
     },
+    {
+        path: '/login',
+        name: 'login',
+        component: LoginView,
+        meta: {
+            title: '登录',
+            showTab: true,
+        },
+    },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    // history: createWebHistory(process.env.BASE_URL),
+    history: createWebHashHistory(),
     routes,
 });
 

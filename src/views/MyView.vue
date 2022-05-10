@@ -1,45 +1,5 @@
 <template>
-    <div class="home">
-        <module-component title="时间">
-            <template v-slot:module_main_slot>
-                <div class="time_date">
-                    <!-- <p>中国 china 北京 时间 </p> -->
-                    <div class="ymd">
-                        <p class="year_box">{{ year }}</p>
-                        <span>年</span>
-                        <p class="month_box">{{ month }}</p>
-                        <span>月</span>
-                        <p class="day_box">{{ day }}</p>
-                        <span>日</span>
-                    </div>
-                    <div class="hms">
-                        <div class="hms_box">
-                            <p class="hour_box">{{ hour }}</p>
-                            <span>:</span>
-                            <p class="minute_box">{{ minute }}</p>
-                            <span>:</span>
-                            <p class="seconds_box">{{ seconds }}</p>
-                        </div>
-                        <!-- 时间段 -->
-                        <div>
-                            <p class="someTime" :style="{ backgroundColor: bgColor.someTimeColor }">{{ someTime }}</p>
-                        </div>
-                    </div>
-                    <div class="week_period">
-                        <!-- 星期 -->
-                        <div class="week">
-                            <span>星期</span>
-                            <p class="week_box" :style="{ backgroundColor: bgColor.weekColor }">{{ week }}</p>
-                        </div>
-                        <div class="period">
-                            <span>当前时间段</span>
-                            <p class="period_box" :style="{ backgroundColor: bgColor.periodColor }">{{ period }}</p>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </module-component>
-    </div>
+    <div class="home">登录</div>
 </template>
 
 <script>

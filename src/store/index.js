@@ -5,9 +5,14 @@ export default createStore({
         mxnzpUrl: 'https://www.mxnzp.com',
         app_id: '9hlmoqmsnoh8arpn',
         app_secret: 'dlA0cFk2VWR5QXdTd0E3c0dtSStMQT09',
+        isLogin: false,
     },
     getters: {},
-    mutations: {},
+    mutations: {
+        changeLogin(state, data) {
+            state.isLogin = data;
+        },
+    },
     actions: {},
     modules: {},
 });

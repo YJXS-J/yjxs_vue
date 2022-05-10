@@ -1,5 +1,9 @@
 <template>
-    <router-view />
+    <router-view v-slot="{ Component }">
+        <keep-alive>
+            <component :is="Component" />
+        </keep-alive>
+    </router-view>
     <div style="height: 3.5rem"></div>
     <tabbar v-if="$route.meta.showTab"></tabbar>
 </template>
