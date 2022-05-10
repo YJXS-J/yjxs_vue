@@ -72,7 +72,7 @@ export default {
                     color: 'black',
                     url:
                         this.$store.state.amaHttps1 +
-                        '113.949856,22.635194,深圳市华润置地B座' +
+                        '113.949856,22.635194,南山区西丽麻磡路18号工业北区7栋' +
                         this.$store.state.amaHttps2,
                 },
                 {
@@ -83,7 +83,6 @@ export default {
                     phone: '18682480859',
                     status: '待面试',
                     color: 'black',
-                    via: { lon: 113.957561, lat: 22.541757, name: '深圳市华润置地B座' },
                     url:
                         this.$store.state.amaHttps1 +
                         '113.957561,22.541757,深圳市华润置地B座' +
