@@ -76,12 +76,12 @@ export default {
                         this.$store.state.amaHttps2,
                 },
                 {
-                    companyName: '未知（现场）',
+                    companyName: '华润置地（现场）',
                     interviewTime: '05 月 11日 星期三 17:30',
                     InterviewLocation: '华润置地B座21层',
                     contact: '--',
                     phone: '--',
-                    status: '已面试（受益匪浅,但是没过）',
+                    status: '已面试（虽然没过，但面试官很nice）',
                     color: 'black',
                     url:
                         this.$store.state.amaHttps1 +
@@ -89,12 +89,12 @@ export default {
                         this.$store.state.amaHttps2,
                 },
                 {
-                    companyName: '未知（线上）',
+                    companyName: '睿呈时代（线上）',
                     interviewTime: '05 月 12日 星期四 14:00',
                     InterviewLocation: '--',
                     contact: '腾讯会议',
-                    phone: '671-945-882',
-                    status: '待面试',
+                    phone: '--',
+                    status: '已面试（面试过程中感觉面试官人还挺不错，等待通知）',
                     color: 'black',
                     url: null,
                 },
