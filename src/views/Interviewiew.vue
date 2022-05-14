@@ -5,6 +5,47 @@
                 {{ timeNow }}
             </template>
         </module-component>
+        <div class="companyDiv">待面试</div>
+        <hr />
+        <module-component v-for="(item, index) in titleNow" :title="item.companyName">
+            <template v-slot:module_main_slot>
+                <div class="companyDiv">
+                    <span class="companyTitle">面试时间：</span>
+                    <span class="companyMain" :style="{ color: item.color }">{{ item.interviewTime }}</span>
+                </div>
+                <div class="companyDiv">
+                    <span class="companyTitle">地址：</span>
+                    <span class="companyMain">
+                        <a :href="item.url" v-if="item.url != null" class="companyMain">
+                            {{ item.InterviewLocation }}
+                        </a>
+                        <span v-else class="companyMain">
+                            {{ item.InterviewLocation }}
+                        </span>
+                    </span>
+                </div>
+                <div class="companyDiv">
+                    <span class="companyTitle">联系人：</span>
+                    <span class="companyMain">
+                        {{ item.contact }}-
+                        <span v-if="item.phone.indexOf('-') != -1" class="companyMain">
+                            {{ item.phone }}
+                        </span>
+                        <span v-else>
+                            <a class="companyMain" :href="'tel:' + item.phone" rel="external nofollow">
+                                {{ item.phone }}
+                            </a>
+                        </span>
+                    </span>
+                </div>
+                <div class="companyDiv">
+                    <span class="companyTitle">面试结果：</span>
+                    <span class="companyMain">{{ item.status }}</span>
+                </div>
+            </template>
+        </module-component>
+        <div class="companyDiv">已面试</div>
+        <hr />
         <module-component v-for="(item, index) in title" :title="item.companyName">
             <template v-slot:module_main_slot>
                 <div class="companyDiv">
@@ -98,6 +139,9 @@ export default {
                     color: 'black',
                     url: null,
                 },
+            ],
+            timeNow: '',
+            titleNow: [
                 {
                     companyName: '法本（线上）',
                     interviewTime: '05 月 16日 星期一 14:30',
@@ -109,7 +153,6 @@ export default {
                     url: null,
                 },
             ],
-            timeNow: '',
         };
     },
     methods: {
@@ -160,6 +203,9 @@ export default {
         a {
             color: #1296db;
         }
+    }
+    hr {
+        margin: 0.5rem 0;
     }
 }
 </style>
