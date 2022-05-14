@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
                         return item.split('=')[0];
                     });
                     const index = cookieKeyList.indexOf(key);
-                    return cookieList[index].split('=')[1] == 'false' ? false : true;
+                    return cookieList[index].split('=')[1] != 'true' ? false : true;
                 }
             }
 
