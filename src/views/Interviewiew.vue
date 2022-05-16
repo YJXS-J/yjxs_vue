@@ -180,12 +180,11 @@ export default {
         timeNow: function () {
             var data = new Date();
             var day = ('0' + data.getDate()).slice(-2);
-
-            for (let i = 0; i < this.title.length; i++) {
-                if (day == this.title[i].interviewTime.substring(5, 7)) {
-                    this.title[i].color = 'red';
+            for (let i = 0; i < this.titleNow.length; i++) {
+                if (day == this.titleNow[i].interviewTime.substring(5, 7)) {
+                    this.titleNow[i].color = 'red';
                 } else {
-                    this.title[i].color = 'black';
+                    this.titleNow[i].color = 'black';
                 }
             }
         },
