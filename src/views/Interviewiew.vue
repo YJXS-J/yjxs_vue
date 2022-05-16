@@ -152,6 +152,16 @@ export default {
                     color: 'black',
                     url: null,
                 },
+                {
+                    companyName: '普慧智能（线上）',
+                    interviewTime: '05 月 17日 星期一 11:00',
+                    InterviewLocation: '--',
+                    contact: '--',
+                    phone: '--',
+                    status: '待面试',
+                    color: 'black',
+                    url: null,
+                },
             ],
         };
     },
