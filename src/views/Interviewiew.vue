@@ -139,22 +139,35 @@ export default {
                     color: 'black',
                     url: null,
                 },
-            ],
-            timeNow: '',
-            titleNow: [
                 {
                     companyName: '法本（线上）',
                     interviewTime: '05 月 16日 星期一 14:30',
                     InterviewLocation: '--',
                     contact: '腾讯会议',
                     phone: '--',
-                    status: '待面试',
+                    status: '已面试（待通知）',
                     color: 'black',
                     url: null,
                 },
+            ],
+            timeNow: '',
+            titleNow: [
+                {
+                    companyName: '天天算力（现场）',
+                    interviewTime: '05 月 17日 星期二 15:00',
+                    InterviewLocation: '南山区大冲商务中心A座3011室',
+                    contact: '王先生',
+                    phone: '16619954373',
+                    status: '待面试',
+                    color: 'black',
+                    url:
+                        this.$store.state.amaHttps1 +
+                        '113.951582,22.541036,南山区大冲商务中心A座' +
+                        this.$store.state.amaHttps2,
+                },
                 {
                     companyName: '普慧智能（线上）',
-                    interviewTime: '05 月 17日 星期一 11:00',
+                    interviewTime: '05 月 18日 星期三 10:30',
                     InterviewLocation: '--',
                     contact: '--',
                     phone: '--',
