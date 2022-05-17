@@ -99,7 +99,7 @@ export default {
                     InterviewLocation: '南山区',
                     contact: '腾讯会议',
                     phone: '--',
-                    status: '已面试（结果不是很理想）',
+                    status: '已面试',
                     color: 'black',
                     url: null,
                 },
@@ -109,7 +109,7 @@ export default {
                     InterviewLocation: '南山区西丽麻磡路18号工业北区7栋3楼',
                     contact: '--',
                     phone: '--',
-                    status: '已面试（一般,但是没过）',
+                    status: '已面试',
                     color: 'black',
                     url:
                         this.$store.state.amaHttps1 +
@@ -122,7 +122,7 @@ export default {
                     InterviewLocation: '华润置地B座21层',
                     contact: '--',
                     phone: '--',
-                    status: '已面试（虽然没过，但面试官很nice）',
+                    status: '已面试',
                     color: 'black',
                     url:
                         this.$store.state.amaHttps1 +
@@ -135,7 +135,7 @@ export default {
                     InterviewLocation: '--',
                     contact: '腾讯会议',
                     phone: '--',
-                    status: '已面试（面试过程中感觉面试官人还挺不错，未等到通知，估计是凉了）',
+                    status: '已面试',
                     color: 'black',
                     url: null,
                 },
@@ -145,35 +145,48 @@ export default {
                     InterviewLocation: '--',
                     contact: '腾讯会议',
                     phone: '--',
-                    status: '已面试（待通知）',
+                    status: '已面试',
                     color: 'black',
                     url: null,
                 },
-            ],
-            timeNow: '',
-            titleNow: [
                 {
                     companyName: '天天算力（现场）',
                     interviewTime: '05 月 17日 星期二 15:00',
                     InterviewLocation: '南山区大冲商务中心A座3011室',
                     contact: '王先生',
                     phone: '16619954373',
-                    status: '待面试',
+                    status: '已面试',
                     color: 'black',
                     url:
                         this.$store.state.amaHttps1 +
                         '113.951582,22.541036,南山区大冲商务中心A座' +
                         this.$store.state.amaHttps2,
                 },
+            ],
+            timeNow: '',
+            titleNow: [
                 {
                     companyName: '普慧智能（线上）',
                     interviewTime: '05 月 18日 星期三 10:30',
-                    InterviewLocation: '--',
-                    contact: '--',
-                    phone: '--',
+                    InterviewLocation: '腾讯会议',
+                    contact: '吴雨婷',
+                    phone: ' 887-229-165',
                     status: '待面试',
                     color: 'black',
                     url: null,
+                },
+                {
+                    companyName: '呵护宝母婴健康科技有限公司（现场）',
+                    interviewTime: '05 月 18日 星期三 15:00',
+                    InterviewLocation: '深圳龙岗区满京华盈丰中心12座202004',
+                    contact: '吴诗静',
+                    phone: '13189784556',
+                    status: '待面试',
+                    color: 'black',
+                    url:
+                        this.$store.state.amaHttps1 +
+                        '114.268116,22.721419,深圳龙岗区满京华盈丰中心12座' +
+                        this.$store.state.amaHttps2,
                 },
             ],
         };
