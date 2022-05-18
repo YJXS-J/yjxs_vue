@@ -27,7 +27,7 @@
                 <div class="companyDiv">
                     <span class="companyTitle">联系人：</span>
                     <span class="companyMain">
-                        {{ item.contact }}-
+                        {{ item.contact }}|
                         <span v-if="item.phone.indexOf('-') != -1" class="companyMain">
                             {{ item.phone }}
                         </span>
@@ -66,7 +66,7 @@
                 <div class="companyDiv">
                     <span class="companyTitle">联系人：</span>
                     <span class="companyMain">
-                        {{ item.contact }}-
+                        {{ item.contact }}|
                         <span v-if="item.phone.indexOf('-') != -1" class="companyMain">
                             {{ item.phone }}
                         </span>
@@ -79,7 +79,8 @@
                 </div>
                 <div class="companyDiv">
                     <span class="companyTitle">面试结果：</span>
-                    <span class="companyMain">{{ item.status }}</span>
+                    <!-- <span class="companyMain">{{ item.status }}</span> -->
+                    <span class="companyMain">已面试</span>
                 </div>
             </template>
         </module-component>
@@ -172,9 +173,6 @@ export default {
                     color: 'black',
                     url: null,
                 },
-            ],
-            timeNow: '',
-            titleNow: [
                 {
                     companyName: '呵护宝母婴健康科技有限公司（现场）',
                     interviewTime: '05 月 18日 星期三 15:00',
@@ -188,12 +186,15 @@ export default {
                         '114.268116,22.721419,深圳龙岗区满京华盈丰中心12座' +
                         this.$store.state.amaHttps2,
                 },
+            ],
+            timeNow: '',
+            titleNow: [
                 {
                     companyName: '拓保软件（线上）',
-                    interviewTime: '05 月 19日 星期四 10:00',
+                    interviewTime: '05 月 19日 星期四 10:30',
                     InterviewLocation: '腾讯会议',
                     contact: '冯婷婷',
-                    phone: '--',
+                    phone: '181-233-127',
                     status: '待面试',
                     color: 'black',
                     url: null,
@@ -207,6 +208,19 @@ export default {
                     status: '待面试',
                     color: 'black',
                     url: null,
+                },
+                {
+                    companyName: '深圳市金政软件（线下）',
+                    interviewTime: '05 月 23日 星期一 10:30',
+                    InterviewLocation: '龙岗区天安云谷二期东区4栋5楼',
+                    contact: '马丽恩',
+                    phone: '15777196412',
+                    status: '待面试',
+                    color: 'black',
+                    url:
+                        this.$store.state.amaHttps1 +
+                        '114.07056,22.660689,龙岗区天安云谷二期东区4栋' +
+                        this.$store.state.amaHttps2,
                 },
             ],
         };
