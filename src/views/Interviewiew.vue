@@ -162,19 +162,19 @@ export default {
                         '113.951582,22.541036,南山区大冲商务中心A座' +
                         this.$store.state.amaHttps2,
                 },
-            ],
-            timeNow: '',
-            titleNow: [
                 {
                     companyName: '普慧智能（线上）',
                     interviewTime: '05 月 18日 星期三 10:30',
                     InterviewLocation: '腾讯会议',
                     contact: '吴雨婷',
                     phone: ' 887-229-165',
-                    status: '待面试',
+                    status: '已取消',
                     color: 'black',
                     url: null,
                 },
+            ],
+            timeNow: '',
+            titleNow: [
                 {
                     companyName: '呵护宝母婴健康科技有限公司（现场）',
                     interviewTime: '05 月 18日 星期三 15:00',
@@ -187,6 +187,26 @@ export default {
                         this.$store.state.amaHttps1 +
                         '114.268116,22.721419,深圳龙岗区满京华盈丰中心12座' +
                         this.$store.state.amaHttps2,
+                },
+                {
+                    companyName: '拓保软件（线上）',
+                    interviewTime: '05 月 19日 星期四 10:00',
+                    InterviewLocation: '腾讯会议',
+                    contact: '冯婷婷',
+                    phone: '--',
+                    status: '待面试',
+                    color: 'black',
+                    url: null,
+                },
+                {
+                    companyName: '中电金信（线上）',
+                    interviewTime: '05 月 19日 星期四 14:00',
+                    InterviewLocation: '腾讯会议',
+                    contact: '向女士',
+                    phone: '188-429-660',
+                    status: '待面试',
+                    color: 'black',
+                    url: null,
                 },
             ],
         };
