@@ -186,9 +186,6 @@ export default {
                         '114.268116,22.721419,深圳龙岗区满京华盈丰中心12座' +
                         this.$store.state.amaHttps2,
                 },
-            ],
-            timeNow: '',
-            titleNow: [
                 {
                     companyName: '拓保软件（线上）',
                     interviewTime: '05 月 19日 星期四 10:30',
@@ -209,6 +206,9 @@ export default {
                     color: 'black',
                     url: null,
                 },
+            ],
+            timeNow: '',
+            titleNow: [
                 {
                     companyName: '深圳市金政软件（线下）',
                     interviewTime: '05 月 23日 星期一 10:30',
