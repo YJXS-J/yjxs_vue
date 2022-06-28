@@ -1,7 +1,7 @@
 <template>
-    <div class="home">
+    <div class="home" :class="widthClass ? 'fwf' : ''">
         <!-- 时间 -->
-        <module-component title="时间">
+        <module-component title="时间" :class="widthClass ? 'ml10' : ''">
             <template v-slot:module_main_slot>
                 <div class="time_date">
                     <!-- <p>中国 china 北京 时间 </p> -->
@@ -51,7 +51,7 @@
             </template>
         </module-component>
         <!-- 高德天气 -->
-        <module-component title="高德天气">
+        <module-component title="高德天气" :class="widthClass ? 'ml10' : ''">
             <template v-slot:module_main_slot>
                 <div class="weather_box">
                     <!-- 左 -->
@@ -124,7 +124,7 @@
             </template>
         </module-component>
         <!-- 汇率 -->
-        <module-component title="汇率">
+        <module-component title="汇率" :class="widthClass ? 'ml10' : ''">
             <template v-slot:module_main_slot>
                 <div class="exchange_box">
                     <div class="exchange_top">
@@ -204,6 +204,9 @@ export default {
 
     data() {
         return {
+            // 获取浏览器宽度
+            screenWidth: document.body.clientWidth,
+            widthClass: false,
             time: {
                 year: '1970',
                 month: '01',
@@ -458,11 +461,9 @@ export default {
         async currency_value(e) {
             this.exchange.inputVal = e.target.value;
         },
-
         async currency_change() {
             this.exchange.currency_tip_static = this.exchange.currentId1 == this.exchange.currentId2 ? true : false;
         },
-
         async currency_echarts_change() {
             var seriesName =
                 this.exchange.currentId3 == 'USD'
@@ -556,8 +557,32 @@ export default {
                 echarts_setOption();
             }, 900000);
         },
+        async adaptive() {
+            const that = this;
+            if (that.screenWidth > 810) {
+                //执行...
+                that.widthClass = true;
+            } else {
+                //执行...
+                that.widthClass = false;
+            }
+            // 重新绘制Echarts尺寸
+            this.$nextTick(() => {
+                that.$echarts.init(document.getElementById('exchangeEcharts')).resize();
+            });
+        },
     },
     mounted() {
+        this.adaptive();
+        window.addEventListener(
+            'resize',
+            () => {
+                this.screenWidth = window.screenWidth || document.body.clientWidth;
+                this.adaptive();
+            },
+            false
+        );
+
         // 时间
         this.getTime();
         setInterval(() => {
@@ -621,6 +646,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fwf {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.ml10 {
+    margin-left: 10px;
+    width: 450px;
+}
+
 .time_date {
     .ymd,
     .hms,

@@ -210,6 +210,16 @@ export default {
             timeNow: '',
             titleNow: [
                 {
+                    companyName: '中电金信（线上）',
+                    interviewTime: '05 月 19日 星期四 14:00',
+                    InterviewLocation: '腾讯会议',
+                    contact: '向女士',
+                    phone: '188-429-660',
+                    status: '待面试',
+                    color: 'black',
+                    url: null,
+                },
+                {
                     companyName: '深圳市金政软件（线下）',
                     interviewTime: '05 月 23日 星期一 10:30',
                     InterviewLocation: '龙岗区天安云谷二期东区4栋5楼',

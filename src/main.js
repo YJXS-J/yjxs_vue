@@ -2,6 +2,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+// 阻止’touchstart’事件，让页面更加流畅。 解决chrome下的warning问题
+import 'default-passive-events';
 
 var Vue = createApp(App);
 
