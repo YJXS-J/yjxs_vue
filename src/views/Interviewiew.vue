@@ -95,108 +95,6 @@ export default {
         return {
             title: [
                 {
-                    companyName: '财税项目（线上）',
-                    interviewTime: '05 月 11日 星期三 10:30',
-                    InterviewLocation: '南山区',
-                    contact: '腾讯会议',
-                    phone: '--',
-                    status: '已面试',
-                    color: 'black',
-                    url: null,
-                },
-                {
-                    companyName: '车安科技（现场）',
-                    interviewTime: '05 月 11日 星期三 15:00',
-                    InterviewLocation: '南山区西丽麻磡路18号工业北区7栋3楼',
-                    contact: '--',
-                    phone: '--',
-                    status: '已面试',
-                    color: 'black',
-                    url:
-                        this.$store.state.amaHttps1 +
-                        '113.949856,22.635194,南山区西丽麻磡路18号工业北区7栋' +
-                        this.$store.state.amaHttps2,
-                },
-                {
-                    companyName: '华润置地（现场）',
-                    interviewTime: '05 月 11日 星期三 17:30',
-                    InterviewLocation: '华润置地B座21层',
-                    contact: '--',
-                    phone: '--',
-                    status: '已面试',
-                    color: 'black',
-                    url:
-                        this.$store.state.amaHttps1 +
-                        '113.957561,22.541757,深圳市华润置地B座' +
-                        this.$store.state.amaHttps2,
-                },
-                {
-                    companyName: '睿呈时代（线上）',
-                    interviewTime: '05 月 12日 星期四 14:00',
-                    InterviewLocation: '--',
-                    contact: '腾讯会议',
-                    phone: '--',
-                    status: '已面试',
-                    color: 'black',
-                    url: null,
-                },
-                {
-                    companyName: '法本（线上）',
-                    interviewTime: '05 月 16日 星期一 14:30',
-                    InterviewLocation: '--',
-                    contact: '腾讯会议',
-                    phone: '--',
-                    status: '已面试',
-                    color: 'black',
-                    url: null,
-                },
-                {
-                    companyName: '天天算力（现场）',
-                    interviewTime: '05 月 17日 星期二 15:00',
-                    InterviewLocation: '南山区大冲商务中心A座3011室',
-                    contact: '王先生',
-                    phone: '16619954373',
-                    status: '已面试',
-                    color: 'black',
-                    url:
-                        this.$store.state.amaHttps1 +
-                        '113.951582,22.541036,南山区大冲商务中心A座' +
-                        this.$store.state.amaHttps2,
-                },
-                {
-                    companyName: '普慧智能（线上）',
-                    interviewTime: '05 月 18日 星期三 10:30',
-                    InterviewLocation: '腾讯会议',
-                    contact: '吴雨婷',
-                    phone: ' 887-229-165',
-                    status: '已取消',
-                    color: 'black',
-                    url: null,
-                },
-                {
-                    companyName: '呵护宝母婴健康科技有限公司（现场）',
-                    interviewTime: '05 月 18日 星期三 15:00',
-                    InterviewLocation: '深圳龙岗区满京华盈丰中心12座202004',
-                    contact: '吴诗静',
-                    phone: '13189784556',
-                    status: '待面试',
-                    color: 'black',
-                    url:
-                        this.$store.state.amaHttps1 +
-                        '114.268116,22.721419,深圳龙岗区满京华盈丰中心12座' +
-                        this.$store.state.amaHttps2,
-                },
-                {
-                    companyName: '拓保软件（线上）',
-                    interviewTime: '05 月 19日 星期四 10:30',
-                    InterviewLocation: '腾讯会议',
-                    contact: '冯婷婷',
-                    phone: '181-233-127',
-                    status: '待面试',
-                    color: 'black',
-                    url: null,
-                },
-                {
                     companyName: '中电金信（线上）',
                     interviewTime: '05 月 19日 星期四 14:00',
                     InterviewLocation: '腾讯会议',
@@ -218,19 +116,6 @@ export default {
                     status: '待面试',
                     color: 'black',
                     url: null,
-                },
-                {
-                    companyName: '深圳市金政软件（线下）',
-                    interviewTime: '05 月 23日 星期一 10:30',
-                    InterviewLocation: '龙岗区天安云谷二期东区4栋5楼',
-                    contact: '马丽恩',
-                    phone: '15777196412',
-                    status: '待面试',
-                    color: 'black',
-                    url:
-                        this.$store.state.amaHttps1 +
-                        '114.07056,22.660689,龙岗区天安云谷二期东区4栋' +
-                        this.$store.state.amaHttps2,
                 },
             ],
         };
